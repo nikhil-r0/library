@@ -8,9 +8,36 @@
 </head>
 <body>
     <h1>Books</h1>
+    <button id="add-book">Add Book +</button>
     <div id="library-container">
 
     </div>
+    <dialog id="add-book-dialog">
+        <form action="" method="dialog" id="add-book-form">
+        <div id="x-container">
+            <button id="close-dialog-button">X</button>
+        </div>
+        <h3>Add book</h3>
+        <div>
+            <label for="title-input">Title: </label>
+            <input type="text" id="title-input" name="name">
+        </div>
+        <div>
+            <label for="info-input">Information: </label>
+            <input type="text" id="info-input" name="info">
+        </div>
+        <div>
+            <label for="page-input">No. of pages: </label>
+            <input type="number" id="page-input" name="page">
+        </div>
+        <div>
+            <label for="read-input">Read: </label>
+            <input type="checkbox" id="read-input" name="isRead">
+        </div>
+        <button type="submit" id="submit-button">Submit</button>
+    </form>
+    </dialog>
+    
     <script src="books.js" ></script>
 
 </body>

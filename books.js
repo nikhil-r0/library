@@ -36,6 +36,20 @@ function createBookElement(book){
         return element;
 }
 
+const submitButton = document.getElementById("submit-button");
+const addBookDialog = document.getElementById("add-book-dialog");
+const addBookButton = document.getElementById("add-book");
+const closeDialogButton = document.getElementById("close-dialog-button");
+const addBookForm = document.getElementById("add-book-form");
+
+closeDialogButton.onclick = (event) => {
+    event.preventDefault();
+    addBookDialog.close();
+}
+addBookButton.onclick = () => {
+    addBookDialog.showModal();
+};
+
 let booksList = [];
 theHobbit = new Book("The Hobbit", "The Hobbit by J.R.R. Tolkien", 295, false);
 booksList.push(theHobbit);
@@ -47,3 +61,17 @@ function renderLibrary() {
     }
 };
 renderLibrary();
+submitButton.addEventListener("click", handleSubmit, false);
+
+function handleSubmit(event){
+    event.preventDefault();
+    const formData = new FormData(addBookForm);
+    booksList.push(new Book(
+        formData.get('name'),
+        formData.get('info'),
+        formData.get('page'),
+        formData.get('isRead')
+    ));
+    addBookForm.reset();
+    renderLibrary();
+}
