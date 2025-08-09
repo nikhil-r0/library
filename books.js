@@ -4,6 +4,7 @@ class Book {
         this.information = info;
         this.pages = pages;
         this.isRead = isRead || false;
+        this.id = crypto.randomUUID();
     }
 }
 
@@ -27,12 +28,33 @@ function createBookElement(book){
         readContainer.textContent = `Read: ${book.isRead ? "Yes" : "No"}`;
         readContainer.className = "read";
 
+        if (!book.isRead) {
+            readContainer.classList.add("not-read");
+        }
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.className = "delete-button";
+        deleteButton.onclick = () => {
+            deleteBook(book.id);
+        }
+
+        const readButton = document.createElement("button");
+        readButton.textContent = book.isRead?"Unread": "Read";
+        readButton.className = "read-button";
+        readButton.onclick = () => {
+            book.isRead = !book.isRead;
+            renderLibrary();
+        }
+
         element.appendChild(nameContainer);
+        element.appendChild(deleteButton);
         element.appendChild(infoContainer);
         element.appendChild(pageContainer);
         element.appendChild(readContainer);
+        element.appendChild(readButton);
 
-        element.id = book.name;
+        element.id = book.id;
         return element;
 }
 
@@ -73,5 +95,10 @@ function handleSubmit(event){
         formData.get('isRead')
     ));
     addBookForm.reset();
+    renderLibrary();
+}
+
+const deleteBook = (id) => {
+    booksList = booksList.filter((book) => book.id != id);
     renderLibrary();
 }

@@ -1,60 +1,223 @@
-form{
+/* --- Global Styles & Resets --- */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+:root {
+    --primary-color: #3b82f6; /* Blue */
+    --primary-hover-color: #2563eb;
+    --secondary-color: #e5e7eb; /* Light Gray */
+    --text-color: #1f2937; /* Dark Gray */
+    --background-color: #f3f4f6; /* Lighter Gray */
+    --card-background-color: #ffffff; /* White */
+    --delete-button-color: #ef4444; /* Red */
+    --delete-hover-color: #dc2626;
+    --success-color: #22c55e; /* Green */
+    --success-hover-color: #16a34a;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    padding: 20px;
     display: flex;
-    gap: 10px;
     flex-direction: column;
-    padding: 5px;
     align-items: center;
-    justify-content: center;
 }
 
-form button[type="submit"]{
-    max-width: max-content;
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
 }
 
-#x-container{
-    display: flex;
-    justify-content: flex-start;
+/* --- Layout Containers --- */
+#library-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
     width: 100%;
+    max-width: 1200px;
+    margin-top: 20px;
 }
 
-#x-container button{
-    border-radius: 50%;
+/* --- Book Card Styling --- */
+.book-container {
+    background-color: var(--card-background-color);
+    border: 1px solid var(--secondary-color);
+    border-radius: var(--border-radius);
+    padding: 24px;
+    box-shadow: var(--box-shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease-in-out;
+}
+
+.book-container:hover {
+    transform: translateY(-5px);
+}
+
+.book-container h3.name {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.book-container p {
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.book-container .read {
+    font-weight: 700;
+    margin-top: 8px;
+    color: var(--success-color); /* Default to green for 'read' */
+}
+
+/* Override .read color for "No" status */
+.book-container .read.not-read {
+    color: var(--delete-button-color);
+}
+
+/* --- Button Styling --- */
+.button {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: var(--border-radius);
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    cursor: pointer;
     border: none;
-    background-color: red;
-    color: white;
-    font-weight: bold;
-    font-size: 1.1rem;
-    padding: 3px 7px;
 }
 
-button{
+#add-book {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+#add-book:hover {
+    background-color: var(--primary-hover-color);
+}
+
+.delete-button {
+    background-color: var(--delete-button-color);
+    color: white;
+    padding: 10px 18px; /* Slightly smaller for the card */
+    margin-top: 10px;
+    width: 100%; /* Full width within the card */
+}
+
+.read-button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 18px; /* Slightly smaller for the card */
+    margin-top: 10px;
+    width: 100%; /* Full width within the card */
+}
+
+.delete-button:hover {
+    background-color: var(--delete-hover-color);
+}
+
+.submit-button {
+    background-color: var(--success-color);
+    color: white;
+    padding: 12px 24px;
+}
+
+.submit-button:hover {
+    background-color: var(--success-hover-color);
+}
+
+/* --- Dialog & Form Styling --- */
+dialog {
+    padding: 2rem;
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    background-color: var(--card-background-color);
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+#add-book-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    background-color: var(--card-background-color);
+}
+
+#add-book-form h3 {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#add-book-form div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#add-book-form label {
+    font-weight: 700;
+}
+
+#add-book-form input[type="text"],
+#add-book-form input[type="number"] {
+    padding: 10px;
+    border: 1px solid var(--secondary-color);
+    border-radius: var(--border-radius);
+}
+
+#add-book-form input[type="text"]:focus,
+#add-book-form input[type="number"]:focus {
+    outline: 2px solid var(--primary-color);
+    border-color: transparent;
+}
+
+#add-book-form input[type="checkbox"] {
+    transform: scale(1.2);
+    align-self: flex-start;
+    margin-top: 5px;
+}
+
+#add-book-form input[type="checkbox"] + label {
+    font-weight: 400; /* Reset font-weight for the label text */
+}
+
+.form-group-checkbox {
+    flex-direction: row !important; /* Override column for the checkbox group */
+    align-items: center;
+}
+
+.form-group-checkbox label {
+    margin-left: 5px;
+}
+
+#close-dialog-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-color);
     cursor: pointer;
 }
 
-/* Target the submit button */
-input[type="submit"],
-button[type="submit"] {
-  background-color: #4CAF50; /* Green background */
-  color: white; /* White text color */
-  padding: 14px 20px; /* Padding around the text */
-  margin: 8px 0; /* Margin for spacing */
-  border: none; /* Remove default border */
-  border-radius: 4px; /* Slightly rounded corners */
-  cursor: pointer; /* Change cursor to a pointer on hover */
-  width: 100%; /* Make the button full width of its container */
-  font-size: 16px; /* Font size */
-  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-}
-
-/* Hover effect */
-input[type="submit"]:hover,
-button[type="submit"]:hover {
-  background-color: #45a049; /* Darker green on hover */
-}
-
-/* Optional: Disabled state styling */
-input[type="submit"]:disabled,
-button[type="submit"]:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
+#close-dialog-button:hover {
+    color: var(--delete-button-color);
 }
